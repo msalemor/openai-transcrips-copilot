@@ -20,7 +20,8 @@ jobs:
       with:
         node-version: 18
     - name: Build the Docker image
-      run: cd server && sh buildd.sh && \
+      run: cd frontend && npm i &&\
+           cd ../server && sh buildd.sh && \
            docker login -u ${{secrets.DOCKER_LOGIN}} -p ${{secrets.DOCKER_PWD}} && \
            docker push am8850/summarizer:dev
     - name: Docker logout
