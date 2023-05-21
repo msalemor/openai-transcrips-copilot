@@ -4,6 +4,7 @@ import { PostSectionsAsync, PostSummariesAsync, PostSummaryAsync } from "./servi
 import SampleScriptService from "./services/samplescriptservice"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import InformationLabel from "./components/informationlabel"
 
 const defaultSummariesMessages: IMessage[] = [
   { role: 'system', content: `You are an assistant that can help summarize a call transcript, list Azure services discussed, list other technologies discussed, and list action items.` },
@@ -219,10 +220,10 @@ const App = () => {
             {/* Chuncked Sections */}
             <label className="text-sm font-bold uppercase bg-slate-950 text-white p-1 text-center" htmlFor="">Chunked Sections</label>
             <div className="flex flex-col w-full p-3 gap-y-2">
-              <label className="text-sm font-bold uppercase" htmlFor="System">GPT System Message</label>
-              <textarea className="rounded py-1 px-2 border text-sm" rows={4} value={summariesMessages[0].content} onChange={(e) => SetMessage("summaries", "system", e.target.value)} />
-              <label className="text-sm font-bold uppercase" htmlFor="User">GPT User Message</label>
-              <textarea className="rounded py-1 px-2 border text-sm" rows={13} value={summariesMessages[1].content} onChange={(e) => SetMessage("summaries", "user", e.target.value)} />
+              <InformationLabel label="GPT System Message" title={"This is a default GPT System message,\nbut you may modify it."} for="sssystem" />
+              <textarea id="sssystem" className="rounded py-1 px-2 border text-sm" rows={4} value={summariesMessages[0].content} onChange={(e) => SetMessage("summaries", "system", e.target.value)} />
+              <InformationLabel label="GPT User Message" title={"This is a default GPT User message,\nbut you may modify it."} for="ssuser" />
+              <textarea id="ssuser" className="rounded py-1 px-2 border text-sm" rows={13} value={summariesMessages[1].content} onChange={(e) => SetMessage("summaries", "user", e.target.value)} />
             </div>
             <button hidden={sections.length === 0} disabled={processingSummaries} onClick={ProcessSummaries} className="py-2 w-40 text-white text-sm font-bold rounded-full border hover:bg-blue-600 border-blue-800 bg-blue-700">
               Process Summaries
@@ -257,10 +258,10 @@ const App = () => {
             {/* Process summary */}
             <label className="text-sm font-bold uppercase bg-slate-950 text-white p-1 text-center" htmlFor="">Summaries</label>
             <div className="flex flex-col w-full p-3 gap-y-2">
-              <label className="text-sm font-bold uppercase" htmlFor="System">GPT System Message</label>
-              <textarea className="rounded py-1 px-2 border text-sm" value={summaryMessages[0].content} rows={4} onChange={(e) => SetMessage("summary", "system", e.target.value)} />
-              <label className="text-sm font-bold uppercase" htmlFor="User">GPT User Message</label>
-              <textarea className="rounded py-1 px-2 border text-sm" value={summaryMessages[1].content} rows={13} onChange={(e) => SetMessage("summary", "user", e.target.value)} />
+              <InformationLabel label="GPT System Message" title={"This is a default GPT System message,\nbut you may modify it."} for="ssystem" />
+              <textarea id="ssystem" className="rounded py-1 px-2 border text-sm" value={summaryMessages[0].content} rows={4} onChange={(e) => SetMessage("summary", "system", e.target.value)} />
+              <InformationLabel label="GPT User Message" title={"This is a default User System message,\nbut you may modify it."} for="suser" />
+              <textarea id="suser" className="rounded py-1 px-2 border text-sm" value={summaryMessages[1].content} rows={13} onChange={(e) => SetMessage("summary", "user", e.target.value)} />
             </div>
             <button hidden={summaries.length === 0} disabled={processingSummary} onClick={ProcessSummary} className="py-2 w-40 text-white text-sm font-bold rounded-full border hover:bg-blue-600 border-blue-800 bg-blue-700">
               Process Summary
