@@ -23,6 +23,8 @@ export interface IMessage {
 }
 
 export interface ISummariesRequest {
+    max_tokens: number;
+    temperature: number;
     messages: IMessage[];
     sections: ISectionInfo[];
 }
@@ -33,6 +35,8 @@ export interface ISummariesResponse {
 }
 
 export interface ISummaryRequest {
+    max_tokens: number;
+    temperature: number;
     messages: IMessage[];
     summaries: ISummariesResponse[];
 }

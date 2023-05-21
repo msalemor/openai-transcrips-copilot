@@ -47,18 +47,22 @@ type SectionInfo struct {
 }
 
 type SummariesRequest struct {
-	Messages []Message     `json:"messages"`
-	Sections []SectionInfo `json:"sections"`
+	Max_Tokens  int           `json:"max_tokens"`
+	Temperature float64       `json:"temperature"`
+	Messages    []Message     `json:"messages"`
+	Sections    []SectionInfo `json:"sections"`
 }
 
-type SummariesRespose struct {
+type SummariesResponse struct {
 	Index   int    `json:"index"`
 	Summary string `json:"summary"`
 }
 
 type SummaryRequest struct {
-	Messages  []Message          `json:"messages"`
-	Summaries []SummariesRespose `json:"summaries"`
+	Max_Tokens  int                 `json:"max_tokens"`
+	Temperature float64             `json:"temperature"`
+	Messages    []Message           `json:"messages"`
+	Summaries   []SummariesResponse `json:"summaries"`
 }
 
 type SummaryResponse struct {

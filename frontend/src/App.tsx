@@ -1,42 +1,9 @@
-//import { useState } from 'react'
-//import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
-
 import { useState } from "react"
-import { IMessage, ISectionInfo, ISettings, ISummariesResponse, ISummaryRequest } from "./interfaces"
-import { PostSectionsAsync, PostSettingsAsync, PostSummariesAsync, PostSummaryAsync } from "./services"
+import { IMessage, ISectionInfo, ISettings, ISummariesRequest, ISummariesResponse, ISummaryRequest } from "./interfaces"
+import { PostSectionsAsync, PostSummariesAsync, PostSummaryAsync } from "./services"
 import SampleScriptService from "./services/samplescriptservice"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-// function App() {
-//   const [count, setCount] = useState(0)
-
-//   return (
-//     <>
-//       <div>
-//         <a href="https://vitejs.dev" target="_blank">
-//           <img src={viteLogo} className="logo" alt="Vite logo" />
-//         </a>
-//         <a href="https://react.dev" target="_blank">
-//           <img src={reactLogo} className="logo react" alt="React logo" />
-//         </a>
-//       </div>
-//       <h1>Vite + React</h1>
-//       <div className="card">
-//         <button onClick={() => setCount((count) => count + 1)}>
-//           count is {count}
-//         </button>
-//         <p>
-//           Edit <code>src/App.tsx</code> and save to test HMR
-//         </p>
-//       </div>
-//       <p className="read-the-docs">
-//         Click on the Vite and React logos to learn more
-//       </p>
-//     </>
-//   )
-// }
 
 const defaultSummariesMessages: IMessage[] = [
   { role: 'system', content: `You are an assistant that can help summarize a call transcript, list Azure services discussed, list other technologies discussed, and list action items.` },
@@ -84,15 +51,6 @@ const App = () => {
   const [processingSummaries, setProcessingSummaries] = useState(false)
   const [processingSummary, setProcessingSummary] = useState(false)
 
-  const UpdateSettings = async () => {
-    let payload = {
-      max_tokens: parseInt(settings.max_tokens),
-      temperature: parseFloat(settings.temperature),
-      chunk_size: parseInt(settings.chunk_size),
-    }
-    await PostSettingsAsync(payload)
-  }
-
   const LoadSample = () => {
     setContent(SampleScriptService())
   }
@@ -125,6 +83,7 @@ const App = () => {
       return
     }
     const payload = {
+      chunk_size: parseInt(settings.chunk_size),
       content,
     }
     let resp = await PostSectionsAsync(payload)
@@ -139,7 +98,9 @@ const App = () => {
       { role: 'system', content: summariesMessages[0].content },
       { role: 'user', content: summariesMessages[1].content },
     ]
-    const payload = {
+    const payload: ISummariesRequest = {
+      max_tokens: parseInt(settings.max_tokens),
+      temperature: parseFloat(settings.temperature),
       messages,
       sections
     }
@@ -159,6 +120,8 @@ const App = () => {
       { role: 'user', content: summaryMessages[1].content },
     ]
     const payload: ISummaryRequest = {
+      max_tokens: parseInt(settings.max_tokens),
+      temperature: parseFloat(settings.temperature),
       messages,
       summaries
     }
@@ -184,7 +147,7 @@ const App = () => {
       </nav>
       <section className="p-2 bg-slate-600">
         <div className="flex flex-row flex-wrap gap-x-2 place-items-center">
-          <button className="w-[100px] rounded-full bg-black text-white hover:bg-slate-900 p-1" onClick={UpdateSettings}>Update</button>
+          {/* <button className="w-[100px] rounded-full bg-black text-white hover:bg-slate-900 p-1" onClick={UpdateSettings}>Update</button> */}
           <label className="uppercase text-white text-sm font-bold" htmlFor="Tokens">Tokens</label>
           <input type="text" className="rounded px-1 py-0 w-[60px]" value={settings.max_tokens} onChange={(e) => setSettings({ ...settings, max_tokens: e.target.value })} />
           <label className="uppercase text-white text-sm font-bold" htmlFor="Tokens">Temperature</label>
@@ -211,7 +174,6 @@ const App = () => {
                         d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
                         fill="currentFill" />
                     </svg>
-
                   </div>
                   <div hidden={processingSummary}>
                     <span className="text-sm font-bold">No results...</span>
@@ -262,11 +224,9 @@ const App = () => {
               <label className="text-sm font-bold uppercase" htmlFor="User">GPT User Message</label>
               <textarea className="rounded py-1 px-2 border text-sm" rows={13} value={summariesMessages[1].content} onChange={(e) => SetMessage("summaries", "user", e.target.value)} />
             </div>
-
             <button hidden={sections.length === 0} disabled={processingSummaries} onClick={ProcessSummaries} className="py-2 w-40 text-white text-sm font-bold rounded-full border hover:bg-blue-600 border-blue-800 bg-blue-700">
               Process Summaries
             </button>
-
             <div hidden={!processingSections}>
               <svg role="status" className="inline h-8 w-8 animate-spin mr-2 text-gray-200 dark:text-gray-600 fill-green-500"
                 viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -278,7 +238,6 @@ const App = () => {
                   fill="currentFill" />
               </svg>
             </div>
-
             {sections.length == 0 ? null : <div className="flex flex-col w-full gap-y-2">
               {sections.map((section, index) => <div>
                 <div key={index}>
@@ -293,7 +252,6 @@ const App = () => {
                 </div>
               </div>)}
             </div>}
-
           </div>
           <div className="basis-full md:basis-1/3 flex flex-col p-2 gap-y-2">
             {/* Process summary */}
