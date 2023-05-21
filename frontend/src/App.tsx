@@ -22,7 +22,7 @@ Text: {context}` },
 const defaultSummaryMessages: IMessage[] = [
   { role: 'system', content: 'You are a general assistant.' },
   {
-    role: 'user', content: `For the following same call transcript summaries, collate the summaries, collate the list of Azure Services, collate the list of other technologies, and collate the list of action items.
+    role: 'user', content: `For the following same call transcript summaries, collate the summaries into one summary, collate the list of Azure Services into one list, collate the list of other technologies into one list, and collate the list of action items into one list.
 
 Desired format:
 Summary:\n
