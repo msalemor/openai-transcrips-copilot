@@ -232,13 +232,13 @@ const App = () => {
           {/* Transcript area */}
           <div className="basis-full md:basis-1/3 flex flex-col p-2 gap-y-2">
             <label className="text-sm font-bold uppercase bg-slate-950 text-white p-1 text-center">Full Transcript</label>
-            <button className="w-40 text-white text-sm font-bold rounded-full border hover:bg-slate-600 border-slate-800 bg-slate-700" onClick={LoadSample}>
+            <button className="w-40 py-2 text-white text-sm font-bold rounded-full border hover:bg-slate-600 border-slate-800 bg-slate-700" onClick={LoadSample}>
               Load Sample
             </button>
-            <button className="w-40 text-white text-sm font-bold rounded-full border hover:bg-blue-600 border-blue-800 bg-blue-700" onClick={ChunkTranscript}>
+            <button className="w-40 py-2 text-white text-sm font-bold rounded-full border hover:bg-blue-600 border-blue-800 bg-blue-700" onClick={ChunkTranscript}>
               Chunk Transcript
             </button>
-            <button className="w-40 text-white text-sm font-bold rounded-full border hover:bg-red-600 border-red-800 bg-red-700" onClick={ClearAll}>
+            <button className="w-40 py-2 text-white text-sm font-bold rounded-full border hover:bg-red-600 border-red-800 bg-red-700" onClick={ClearAll}>
               Clear All
             </button>
             <div>
@@ -263,7 +263,7 @@ const App = () => {
               <textarea className="rounded py-1 px-2 border text-sm" rows={13} value={summariesMessages[1].content} onChange={(e) => SetMessage("summaries", "user", e.target.value)} />
             </div>
 
-            <button hidden={sections.length === 0} disabled={processingSummaries} onClick={ProcessSummaries} className="w-40 text-white text-sm font-bold rounded-full border hover:bg-blue-600 border-blue-800 bg-blue-700">
+            <button hidden={sections.length === 0} disabled={processingSummaries} onClick={ProcessSummaries} className="py-2 w-40 text-white text-sm font-bold rounded-full border hover:bg-blue-600 border-blue-800 bg-blue-700">
               Process Summaries
             </button>
 
@@ -304,7 +304,7 @@ const App = () => {
               <label className="text-sm font-bold uppercase" htmlFor="User">GPT User Message</label>
               <textarea className="rounded py-1 px-2 border text-sm" value={summaryMessages[1].content} rows={13} onChange={(e) => SetMessage("summary", "user", e.target.value)} />
             </div>
-            <button hidden={summaries.length === 0} disabled={processingSummary} onClick={ProcessSummary} className="w-40 text-white text-sm font-bold rounded-full border hover:bg-blue-600 border-blue-800 bg-blue-700">
+            <button hidden={summaries.length === 0} disabled={processingSummary} onClick={ProcessSummary} className="py-2 w-40 text-white text-sm font-bold rounded-full border hover:bg-blue-600 border-blue-800 bg-blue-700">
               Process Summary
             </button>
             <div hidden={!processingSummaries}>
