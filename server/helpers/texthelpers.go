@@ -74,3 +74,23 @@ func ChunkText(str string, max_size int) []application.SectionInfo {
 
 	return sections
 }
+
+func TeamsFilter(text string) string {
+	lines := strings.Split(text, "\n")
+	sb := strings.Builder{}
+	for i := 0; i < len(lines); i++ {
+		line := lines[i]
+		if strings.Contains(line, "-->") {
+			sb.WriteString("\n\n")
+			//sb.WriteString(line)
+			//sb.WriteString("\n")
+			sb.WriteString(lines[i+1])
+			sb.WriteString(": ")
+			i++
+		} else {
+			sb.WriteString(line)
+			sb.WriteString("\n")
+		}
+	}
+	return sb.String()
+}

@@ -41,14 +41,18 @@ func main() {
 
 	r.POST("/api/sections", func(c *gin.Context) {
 		var payload struct {
-			Chunk_Size int    `json:"chunk_size"`
-			Content    string `json:"content"`
+			Chunk_Size  int    `json:"chunk_size"`
+			Content     string `json:"content"`
+			TeamsFilter bool   `json:"teams_filter"`
 		}
 		if err := c.BindJSON(&payload); err != nil {
 			c.AbortWithError(http.StatusBadRequest, err)
 			return
 		}
 		log.Info(payload.Content)
+		if payload.TeamsFilter {
+			payload.Content = helpers.TeamsFilter(payload.Content)
+		}
 		sections := helpers.ChunkText(payload.Content, payload.Chunk_Size)
 		c.JSON(http.StatusOK, sections)
 	})

@@ -51,6 +51,7 @@ const App = () => {
   const [processingSections, setProcessingSections] = useState(false)
   const [processingSummaries, setProcessingSummaries] = useState(false)
   const [processingSummary, setProcessingSummary] = useState(false)
+  const [_, setTeamsformat] = useState(false)
 
   const LoadSample = () => {
     setContent(SampleScriptService())
@@ -86,6 +87,7 @@ const App = () => {
     const payload = {
       chunk_size: parseInt(settings.chunk_size),
       content,
+      teams_filter: true
     }
     let resp = await PostSectionsAsync(payload)
     setSections(resp)
@@ -204,6 +206,9 @@ const App = () => {
             <button className="w-40 py-2 text-white text-sm font-bold rounded-full border hover:bg-red-600 border-red-800 bg-red-700" onClick={ClearAll}>
               Clear All
             </button>
+            <div className="flex flex-row gap-x-2 place-items-center">
+              <input type="checkbox" id="teams" onChange={(e) => setTeamsformat(e.target.checked)} /> <label htmlFor="teams">Teams Format</label>
+            </div>
             <div>
               <label>WORDS:</label> <span className="font-bold text-sm">{content.length == 0 ? 0 : content.split(' ').length}</span>
               <br />
